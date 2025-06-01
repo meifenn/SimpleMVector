@@ -24,6 +24,14 @@ int main()
 	Animal* dog = new Dog();
 	Animal* cat = new Cat();
 
+	std::shared_ptr<Dog> p_dog = std::make_shared<Dog>();
+	std::shared_ptr<Dog> p_dog2 = p_dog;
+	std::shared_ptr<Dog> p_dog_weak = p_dog;
+	std::unique_ptr<Dog> p_u_dog;
+
+	p_dog->fetch();
+	p_dog2->fetch();
+
 	dog->makeSound();
 	cat->makeSound();
 
@@ -39,18 +47,14 @@ int main()
 	staticCat->scratch();
 
 	Cat* dynamicCat = dynamic_cast<Cat*>(cat);
-	if (dynamicCat) {
-		std::cout << std::endl << "Dynamic_Cast Cat" << std::endl;
-		dynamicCat->makeSound();
-		dynamicCat->scratch();
-	}
+	std::cout << std::endl << "Dynamic_Cast Cat" << std::endl;
+	dynamicCat->makeSound();
+	dynamicCat->scratch();
 
 	Dog* dynamicDog = dynamic_cast<Dog*>(dog);
-	if (dynamicDog) {
-		std::cout << std::endl << "Dynamic_Cast Dog" << std::endl;
-		dynamicDog->makeSound();
-		dynamicDog->fetch();
-	}
+	std::cout << std::endl << "Dynamic_Cast Dog" << std::endl;
+	dynamicDog->makeSound();
+	dynamicDog->fetch();
 
 	// TODO: Test what happens when casting to wrong type
 	Dog* wrongStaticDog = static_cast<Dog*>(cat);
@@ -62,6 +66,30 @@ int main()
 	std::cout << std::endl << "Wrong_Static_Cast Cat*" << std::endl;
 	wrongStaticCat->makeSound();
 	wrongStaticCat->scratch();
+
+	Cat* WrongDynamicCat = dynamic_cast<Cat*>(dog);
+	if (WrongDynamicCat)
+	{
+		std::cout << std::endl << "Wrong_Dynamic_Cast Cat" << std::endl;
+		WrongDynamicCat->makeSound();
+		WrongDynamicCat->scratch();
+	}
+	else
+	{
+		std::cout << std::endl << "Cat is not a Dog" << std::endl;
+	}
+
+	Dog* WrongDynamicDog = dynamic_cast<Dog*>(cat);
+	if (WrongDynamicDog)
+	{
+		std::cout << std::endl << "Wrong_Dynamic_Cast Dog" << std::endl;
+		WrongDynamicDog->makeSound();
+		WrongDynamicDog->fetch();
+	}
+	else
+	{
+		std::cout << std::endl << "Dog is not a cat" << std::endl;
+	}
 
 	//------------------------------------------------------------------
 
